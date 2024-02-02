@@ -35,7 +35,7 @@ def q_count(text):
 
 
 
-length = 100000
+length = 1000000
 vocab = ["A", "C", "G", "T"]
 text = primitive_random_generator(vocab, length)
 
@@ -92,10 +92,12 @@ while len(text) > math.log2(length):
                 text[i] = index[(w_1, w_2)]
                 text[i+1] = ""
 
+    clear_text = []
     for i in text:
-        if i == "":
-            text.remove(i)
-
+        if i != "":
+            clear_text.append(i)
+    text = clear_text.copy()
+    clear_text = []
     print("text:", len(text))
     iter += 1
 
