@@ -35,7 +35,7 @@ def q_count(text):
 
 
 
-length = 1000000
+length = 100000
 vocab = ["A", "C", "G", "T"]
 text = primitive_random_generator(vocab, length)
 
@@ -57,8 +57,11 @@ text = primitive_random_generator(vocab, length)
 
 print(text)
 print("text:", len(text))
-pairstring = {}
+index = {}
 
+index_size = 0
+
+iter = 0
 while len(text) > math.log2(length):
     text_len = len(text)
     pair = {}
@@ -67,24 +70,26 @@ while len(text) > math.log2(length):
 
 
     #ok, now I can try to cover the text just with bigrams
-    pairstring = {}
+    index = {}
     i = 0
     for k in pair.keys():
-        #pairstring[k] = "".join(k)
-        pairstring[k] = str(i)
+        #index[k] = "".join(k)
+        index[k] = str(iter) + "_" + str(i)
         i += 1
 
-    #print(pairstring)
+    #print(index)
 
 
-    print("pairstring:", len(pairstring))
+    print("index:", len(index))
+    index_size += len(index)
+    print(index)
 
     for i in range(text_len - 1):
         w_1 = text[i]
         w_2 = text[i + 1]
         if w_1 != "":
-            if (w_1, w_2) in pairstring:
-                text[i] = pairstring[(w_1, w_2)]
+            if (w_1, w_2) in index:
+                text[i] = index[(w_1, w_2)]
                 text[i+1] = ""
 
     for i in text:
@@ -92,7 +97,10 @@ while len(text) > math.log2(length):
             text.remove(i)
 
     print("text:", len(text))
-print(pairstring)
+    iter += 1
+
+print("Index size:", index_size)
+print("(Index+final_text)/original_text", (index_size + len(text))/length)
 print(text)
 
 
